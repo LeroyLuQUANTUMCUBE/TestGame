@@ -12,8 +12,8 @@ window.ontouchmove = coordHandler;
 function coordHandler(event) {
     switch (event.type) {
         case 'mousemove':
-            coordX = event.clientX-321;
-            coordY = event.clientY-8;
+            coordX = event.clientX;
+            coordY = event.clientY;
             break;
         case 'touchstart':
         case 'touchmove':
