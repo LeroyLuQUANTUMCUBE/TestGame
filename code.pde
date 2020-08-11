@@ -297,5 +297,5 @@ draw=function(){
         crash
     }
     fill(0);
-    text(mouseY+" "+coordY+" "+mouseX+" "+coordX, 200, 200, 200, 200);
+    //text(mouseY+" "+coordY+" "+mouseX+" "+coordX, 200, 200, 200, 200);
 }
