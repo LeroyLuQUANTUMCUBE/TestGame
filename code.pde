@@ -144,9 +144,9 @@ draw=function(){
     mouseY=coordY;
     
     if(turn){
-        background(200, 200, 255);
+        background(240, 210, 160);
     }else{
-        background(100, 100, 255);
+        background(200, 160, 110);
     }
     //buttons 
     
