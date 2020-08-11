@@ -298,4 +298,7 @@ draw=function(){
     }
     fill(0);
     //text(mouseY+" "+coordY+" "+mouseX+" "+coordX, 200, 200, 200, 200);
+    stroke(255, 0, 0);
+    strokeWeight(1);
+    point(coordX, coordY);
 }
