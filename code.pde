@@ -6,6 +6,7 @@ int bc=0;
 int dim=13;
 int hand=0;
 bool turn=false;
+track=[-2, -2];
 //the whole grid
 var grid=[];
 for(int i=0;i<dim;i++){
@@ -159,19 +160,20 @@ draw=function(){
       textSize(200/(dim+1));
       if(dim>9){
         fill(180);
-        rect(120-(gSize*1.5), gSize/5, gSize*3, gSize*3/5, 5);
+        rect(120-(gSize*1.5), 600-gSize/5-gSize*3/5, gSize*3, gSize*3/5, 5);
         fill(0);
-        text("(-) BOARD SIZE", 120, gSize/2);
+        text("(-) BOARD SIZE", 120, 600-gSize/2);
       }
       if(dim<21){
         fill(180);
-        rect(480-(gSize*1.5), gSize-gSize*4/5, gSize*3, gSize*3/5, 5);
+        rect(480-(gSize*1.5), 600-gSize/5-gSize*3/5, gSize*3, gSize*3/5, 5);
         fill(0);
-        text("(+) BOARD SIZE", 480, gSize/2);
+        text("(+) BOARD SIZE", 480, 600-gSize/2);
+        text("(+) BOARD SIZE", 480, 600-gSize/2);
       }
       if(click){
         click=false;
-        if(mouseX>120-(gSize*1.5)&&mouseX<120+(gSize*1.5)&&mouseY>gSize/5&&mouseY<gSize*4/5&&dim>9){
+        if(mouseX>120-(gSize*1.5)&&mouseX<120+(gSize*1.5)&&mouseY<600-gSize/5&&mouseY>600-gSize*4/5&&dim>9){
           dim--;
           grid=[];
           for(int i=0;i<dim;i++){
@@ -181,7 +183,7 @@ draw=function(){
               }
           }
         }else
-        if(mouseX>480-(gSize*1.5)&&mouseX<480+(gSize*1.5)&&mouseY>gSize/5&&mouseY<gSize*4/5&&dim<21){
+        if(mouseX>480-(gSize*1.5)&&mouseX<480+(gSize*1.5)&&mouseY<600-gSize/5&&mouseY>600-gSize*4/5&&dim<21){
           dim++;
           grid=[];
           for(int i=0;i<dim;i++){
@@ -202,16 +204,48 @@ draw=function(){
     if(!turn){
         turnt="BLACK";
     }
-    text(turnt+" TO PLAY", 300, 300/(dim+1));
+    //text(turnt+" TO PLAY", 300, 300/(dim+1));
     //pieces count
-    text(wn+" white pieces on board; "+bn+" black pieces on board", 300, 600-400/(dim+1));
-    text(wc+" white pieces taken; "+bc+" black pieces taken", 300, 600-200/(dim+1));
+    //text(wn+" white pieces on board; "+bn+" black pieces on board; "+wc+" white pieces taken; "+bc+" black pieces taken", 300, 600-200/(dim+1));
+    //side markings
+    letterNo=["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+    for(int i=0;i<dim;i++){
+      text(i+1, 600*(i+1)/(dim+1), 600*(1/4)/(dim+1));
+      text(letterNo[i], 600/(dim+1)/4, 600*(i+1)/(dim+1));
+    }
     //lines
     stroke(0);
     strokeWeight(2);
     for(int i=0;i<dim;i++){
         line(600/(dim+1), (600/(dim+1))+(i*((600/(dim+1)*(dim))/(dim))), 600/(dim+1)*(dim), (600/(dim+1))+(i*((600/(dim+1)*(dim))/(dim))));
         line((600/(dim+1))+(i*((600/(dim+1)*(dim))/(dim))), 600/(dim+1), (600/(dim+1))+(i*((600/(dim+1)*(dim))/(dim))), 600/(dim+1)*(dim));
+    }
+    //star points
+    noFill();
+    stroke(0);
+    if(dim==9){
+      strokeWeight(15);
+      point(300, 300);
+    }
+    if(dim==13){
+      strokeWeight(12);
+      point(600*4/(dim+1), 600*4/(dim+1));
+      point(600*10/(dim+1), 600*4/(dim+1));
+      point(600*4/(dim+1), 600*10/(dim+1));
+      point(600*10/(dim+1), 600*10/(dim+1));
+      point(600*7/(dim+1), 600*7/(dim+1));
+    }
+    if(dim==19){
+      strokeWeight(9);
+      point(600*4/(dim+1), 600*4/(dim+1));
+      point(600*4/(dim+1), 600*10/(dim+1));
+      point(600*4/(dim+1), 600*16/(dim+1));
+      point(600*10/(dim+1), 600*4/(dim+1));
+      point(600*10/(dim+1), 600*10/(dim+1));
+      point(600*10/(dim+1), 600*16/(dim+1));
+      point(600*16/(dim+1), 600*4/(dim+1));
+      point(600*16/(dim+1), 600*10/(dim+1));
+      point(600*16/(dim+1), 600*16/(dim+1));
     }
     //mouse checks
     for(int i=0;i<dim;i++){
@@ -226,6 +260,7 @@ draw=function(){
                         }else{
                             grid[i][j]=[2];
                         }
+                        track=[i, j];
                         kills();
                         if(hand==0){                            
                           if(turn){
@@ -247,8 +282,7 @@ draw=function(){
                   fill(0, 0, 0, 100);
                 }
                 noStroke();
-                ellipse(((i+1)*(600/(dim+1))), ((j+1)*(600/(dim+1))), 540/(dim+1), 540/(dim+1));
-                
+                ellipse(((i+1)*(600/(dim+1))), ((j+1)*(600/(dim+1))), 540/(dim+1), 540/(dim+1));                                        
             }
             //tile checks
             if(grid[i][j]==1){
@@ -261,6 +295,10 @@ draw=function(){
                 noStroke();
                 ellipse(((i+1)*(600/(dim+1))), ((j+1)*(600/(dim+1))), 540/(dim+1), 540/(dim+1));
             }
+            noFill();
+            stroke(50, 150, 0);
+            strokeWeight(2);
+            ellipse(((track[0]+1)*(600/(dim+1))), ((track[1]+1)*(600/(dim+1))), 540/(dim+1), 540/(dim+1));
         }
     }
     //click check
@@ -297,8 +335,5 @@ draw=function(){
         crash
     }
     fill(0);
-    //text(mouseY+" "+coordY+" "+mouseX+" "+coordX, 200, 200, 200, 200);
-    stroke(255, 0, 0);
-    strokeWeight(1);
-    point(coordX, coordY);
+    //text(mouseY+" "+coordY, 200, 200, 200, 200);
 }
